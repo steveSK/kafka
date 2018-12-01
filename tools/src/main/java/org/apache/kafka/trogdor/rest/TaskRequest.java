@@ -14,21 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.kafka.streams.kstream.internals;
 
-import org.apache.kafka.streams.kstream.Reducer;
-import org.apache.kafka.streams.kstream.Window;
-import org.apache.kafka.streams.kstream.Windows;
+package org.apache.kafka.trogdor.rest;
 
-class KStreamWindowReduce<K, V, W extends Window> extends KStreamWindowAggregate<K, V, V, W> {
-    KStreamWindowReduce(final Windows<W> windows,
-                        final String storeName,
-                        final Reducer<V> reducer) {
-        super(
-            windows,
-            storeName,
-            () -> null,
-            (key, newValue, oldValue) -> oldValue == null ? newValue : reducer.apply(oldValue, newValue)
-        );
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * The request to /coordinator/tasks/{taskId}
+ */
+public class TaskRequest {
+    private final String taskId;
+
+    @JsonCreator
+    public TaskRequest(@JsonProperty("taskId") String taskId) {
+        this.taskId = taskId == null ? "" : taskId;
+    }
+
+    @JsonProperty
+    public String taskId() {
+        return taskId;
     }
 }
